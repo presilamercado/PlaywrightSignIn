@@ -53,8 +53,6 @@ test('Gmail sign up - fill form only', async ({ page }) => {
   await page.waitForTimeout(3000);
   await page.screenshot({ path: 'gmail-signup-filled.png' });
 
-  return
-
   // Assert that we reach the CAPTCHA page or are blocked
   await expect(page).toHaveURL(/signup/);
 });
