@@ -15,7 +15,7 @@ test('Instagram sign up form fill', async ({ page }) => {
   // Click Sign Up (Instagram may block or rate-limit actual form submission)
   //getByRole('button', { name: 'Sign up' })
   await page.click('button[type="submit"]');
-
+  
 
 
   // Assert the inputs have correct values
