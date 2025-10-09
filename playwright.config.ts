@@ -5,6 +5,8 @@ import { defineConfig, devices } from '@playwright/test';
 dotenv.config({ path: resolve(__dirname, '.env.playwright') });
 dotenv.config();
 
+const isCI = !!process.env.CI;
+
 export default defineConfig({
   testDir: './tests', // Path to your tests folder
   timeout: 30 * 1000, // 30 seconds per test
@@ -16,7 +18,7 @@ export default defineConfig({
   reporter: 'html', // Generate HTML report
   use: {
     baseURL: 'https://example.com', // Your app's base URL
-    headless: false, // Show the browser during testing
+    headless: isCI ? true : false, // Run headless in CI to avoid X server dependency
     viewport: { width: 1280, height: 720 },
     ignoreHTTPSErrors: true,
     screenshot: 'only-on-failure', // Take screenshots on failure
