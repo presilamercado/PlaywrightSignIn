@@ -1,8 +1,10 @@
 import { test, expect } from '@playwright/test';
 
 test('Instagram login button enables when credentials are provided', async ({ page }) => {
-  const username = process.env.INSTAGRAM_USERNAME 
-  const password = process.env.INSTAGRAM_PASSWORD 
+  const username = process.env.INSTAGRAM_USERNAME;
+  const password = process.env.INSTAGRAM_PASSWORD;
+
+  test.skip(!username || !password, 'Set INSTAGRAM_USERNAME and INSTAGRAM_PASSWORD to exercise the real login flow.');
 
   const response = await page.goto('https://www.instagram.com/accounts/login/');
 
@@ -11,8 +13,7 @@ test('Instagram login button enables when credentials are provided', async ({ pa
   await page.waitForLoadState('domcontentloaded');
 
   const rateLimitedBanner = page.getByText('Too Many Requests', { exact: false });
-  const rateLimitVisible = (await rateLimitedBanner.count()) > 0 && (await rateLimitedBanner.first().isVisible());
-  if (rateLimitVisible) {
+  if (await rateLimitedBanner.first().isVisible()) {
     test.skip(true, 'Instagram displayed the "Too Many Requests" page.');
   }
 
@@ -24,18 +25,23 @@ test('Instagram login button enables when credentials are provided', async ({ pa
   await expect(passwordField).toBeVisible();
   await expect(loginButton).toBeDisabled();
 
-  await usernameField.fill(username);
+  await usernameField.fill(username!);
   await expect(loginButton).toBeDisabled();
 
-  await passwordField.fill(password);
+  await passwordField.fill(password!);
   await expect(loginButton).toBeEnabled();
 
-  if (process.env.INSTAGRAM_USERNAME && process.env.INSTAGRAM_PASSWORD) {
-    await loginButton.click();
-    await expect(page).not.toHaveURL(/accounts\/login/);
+  await loginButton.click();
+  await page.waitForLoadState('networkidle');
+
+  const challengeNotice = page.getByText("Help us confirm it's you", { exact: false });
+  if (await challengeNotice.first().isVisible()) {
+    test.skip(true, 'Instagram surfaced the identity confirmation challenge (CAPTCHA).');
   }
 
-  // Assert ß
   await expect(page.getByRole('button', { name: 'Save info' })).toBeVisible();
-
+  await expect(page).not.toHaveURL(/accounts\/login/);
 });
+
+
+//dded skip guards for 429 responses, “Too Many Requests” splash, and the reCAPTCHA-style “Help us confirm it’s you” challenge so CI exits gracefully instead of failing.
