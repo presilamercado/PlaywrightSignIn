@@ -3,9 +3,9 @@ import { test, expect } from '@playwright/test';
 
 test('Gmail sign up - fill form only', async ({ page }) => {
   // Navigate to Gmail sign-up page
-  await page.goto('https://accounts.google.com/signup/v2/webcreateaccount');
+  await page.goto('https://www.instagram.com/');
 
-  await page.getByRole('link', { name: 'Create account' }).click()
+  await expect(page.getByRole('textbox', { name: 'First name' })).toBeVisible();
 
   // Fill basic fields
   await page.getByRole('textbox', { name: 'First name' }).fill("Ella")
@@ -22,20 +22,24 @@ test('Gmail sign up - fill form only', async ({ page }) => {
   // await page.fill('input[name="firstName"]', 'Ella');
   // await page.fill('input[name="lastName"]', 'Playwright');
   // await page.fill('input[name="Username"]', 'ella.playwright'); // unique username
-  // await page.fill('input[name="Passwd"]', 'ellaPlaywright!123');
-  // await page.fill('input[name="ConfirmPasswd"]', 'ellaPlaywright!123');
+  await page.fill('input[name="Passwd"]', 'ellaPlaywright!123');
+  await page.fill('input[name="ConfirmPasswd"]', 'testPlaywright');
+
+  // email :  ella.playwright@yahoo.com
+  // password : ellaPlaywright!123 // testPlaywright!123
+  // username :ella.playwright
 
   // // Click the "Next" button
-  // await page.getByRole('button', { name: 'Next' }).click();
+  //await page.getByRole('button', { name: 'Next' }).click();
 
   // // Optional: Take a screenshot after clicking nextß
-  //  await page.waitForTimeout(1000); // waits for 60 seconds
+  await page.waitForTimeout(1000); // waits for 60 seconds
   await page.getByRole('combobox', { name: 'Month' }).locator('div').click()
   await page.getByRole('option', { name: 'October' }).click()
   await page.waitForTimeout(1000);
   await page.getByRole('textbox', { name: 'Day' }).fill("28")
   await page.waitForTimeout(1000);
-  await page.getByRole('textbox', { name: 'Year' }).fill("1985")
+  await page.getByRole('textbox', { name: 'Year' }).fill("1960")
 
 
   await page.getByRole('combobox', { name: 'Gender' }).click();
@@ -56,3 +60,6 @@ test('Gmail sign up - fill form only', async ({ page }) => {
   // Assert that we reach the CAPTCHA page or are blocked
   await expect(page).toHaveURL(/signup/);
 });
+
+
+//npx playwright test tests/signup-gmail.spec.ts

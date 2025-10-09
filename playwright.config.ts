@@ -1,4 +1,9 @@
+import * as dotenv from 'dotenv';
+import { resolve } from 'path';
 import { defineConfig, devices } from '@playwright/test';
+
+dotenv.config({ path: resolve(__dirname, '.env.playwright') });
+dotenv.config();
 
 export default defineConfig({
   testDir: './tests', // Path to your tests folder
