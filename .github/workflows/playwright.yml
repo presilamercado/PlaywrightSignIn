@@ -44,6 +44,15 @@ jobs:
       - name: Run Playwright tests
         run: npx playwright test
 
+      # Upload Playwright videos and traces
+      - name: Upload Playwright results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-results
+          path: test-results
+          if-no-files-found: ignore
+
       # Upload the Playwright HTML report even if tests fail
       - name: Upload Playwright report
         if: always()
@@ -55,5 +64,4 @@ jobs:
           path: playwright-report
           # Do not fail the workflow if the report directory is missing
           if-no-files-found: ignore
-
 
