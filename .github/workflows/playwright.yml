@@ -32,9 +32,9 @@ jobs:
           node-version: 20
           cache: npm
 
-      # Install project dependencies from package-lock.json
+      # Install project dependencies (keeps package-lock.json in sync)
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       # Install the Playwright browser binaries and system dependencies
       - name: Install Playwright browsers
@@ -55,6 +55,5 @@ jobs:
           path: playwright-report
           # Do not fail the workflow if the report directory is missing
           if-no-files-found: ignore
-
 
 
