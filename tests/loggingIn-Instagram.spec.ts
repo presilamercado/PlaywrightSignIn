@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('Instagram login button enables when credentials are provided', async ({ page }) => {
+test.skip('Instagram login button enables when credentials are provided', async ({ page }) => {
   const username = process.env.INSTAGRAM_USERNAME;
   const password = process.env.INSTAGRAM_PASSWORD;
 

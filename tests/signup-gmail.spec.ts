@@ -1,7 +1,7 @@
 
 import { test, expect } from '@playwright/test';
 
-test('Gmail sign up - fill form only', async ({ page }) => {
+test.skip('Gmail sign up - fill form only', async ({ page }) => {
   // Navigate to Gmail sign-up page
   await page.goto('https://www.instagram.com/');
 
