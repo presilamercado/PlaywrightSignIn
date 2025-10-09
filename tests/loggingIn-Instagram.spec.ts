@@ -4,7 +4,17 @@ test('Instagram login button enables when credentials are provided', async ({ pa
   const username = process.env.INSTAGRAM_USERNAME 
   const password = process.env.INSTAGRAM_PASSWORD 
 
-  await page.goto('https://www.instagram.com/accounts/login/');
+  const response = await page.goto('https://www.instagram.com/accounts/login/');
+
+  test.skip(response?.status() === 429, 'Instagram rate-limited this session with HTTP 429.');
+
+  await page.waitForLoadState('domcontentloaded');
+
+  const rateLimitedBanner = page.getByText('Too Many Requests', { exact: false });
+  const rateLimitVisible = (await rateLimitedBanner.count()) > 0 && (await rateLimitedBanner.first().isVisible());
+  if (rateLimitVisible) {
+    test.skip(true, 'Instagram displayed the "Too Many Requests" page.');
+  }
 
   const usernameField = page.getByLabel('Phone number, username, or email');
   const passwordField = page.getByLabel('Password');
