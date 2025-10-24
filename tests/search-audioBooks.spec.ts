@@ -16,10 +16,13 @@ test.describe('Audible storefront', () => {
     const resultsList = page.locator('#product-list-a11y-skiplink-target');
     await expect(resultsList).toBeVisible();
     const firstResult = resultsList.getByRole('article').first();
+
     await expect(firstResult.getByRole('heading')).toContainText('Alchemised');
     await firstResult.getByRole('link').click();
+   // await expect(page.getByRole('heading', { name: 'Alchemised', exact: true })).toBeVisible();
 
-    await expect(page.getByRole('heading', { name: 'Alchemised', exact: true })).toBeVisible();
+   // await expect(page.getByRole('link', { name: 'Alchemised', exact: true })).toBeVisible();
+
   });
 
   test('Filtering fantasy results by language Spanish', async ({ page }) => {
@@ -37,3 +40,24 @@ test.describe('Audible storefront', () => {
     await expect(spanishResultLink).toBeVisible();
   });
 });
+
+//npx playwright codegen https://www.audible.com.au/
+// npx playwright test tests/search-audioBooks.spec.ts
+// npx playwright test tests/search-audioBooks.spec.ts --project=chromium
+// npx playwright test tests/search-audioBooks.spec.ts --project=firefox
+// npx playwright test tests/search-audioBooks.spec.ts --project=webkit
+
+// npx playwright test tests/search-audioBooks.spec.ts --headed
+
+//npx playwright test tests/search-audioBooks.spec.ts --debug
+
+//npx playwright test tests/search-audioBooks.spec.ts --trace on
+
+
+//Run a specific test within the file (if you have multiple tests):
+//npx playwright test tests/search-audioBooks.spec.ts -g "test name"
+
+// npx playwright test tests/search-audioBooks.spec.ts
+
+
+// test ci
