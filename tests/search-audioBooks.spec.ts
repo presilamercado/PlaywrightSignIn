@@ -41,6 +41,7 @@ test.describe('Audible storefront', () => {
   });
 });
 
+
 //npx playwright codegen https://www.audible.com.au/
 // npx playwright test tests/search-audioBooks.spec.ts
 // npx playwright test tests/search-audioBooks.spec.ts --project=chromium
@@ -61,3 +62,8 @@ test.describe('Audible storefront', () => {
 
 
 // test ci
+
+// use grept to run specific tests with names matching a pattern
+// npx playwright test -g "Search flow shows book detail"
+// npx playwright test -g "Filtering fantasy results by language Spanish"
+// npx playwright test
