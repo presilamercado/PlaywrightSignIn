@@ -67,3 +67,5 @@ test.describe('Audible storefront', () => {
 // npx playwright test -g "Search flow shows book detail"
 // npx playwright test -g "Filtering fantasy results by language Spanish"
 // npx playwright test
+
+// test ci
